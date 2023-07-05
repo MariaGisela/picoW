@@ -6,22 +6,31 @@ import blynktimer
 from servo import Servo
 
 
+from machine import Pin
+import time
+import network
+import blynklib
+import blynktimer
+from servo import Servo
+
+# Setup for Pins for Motion sensor and servo
 motionSensor = Pin(14, Pin.IN, Pin.PULL_UP)
 my_servo = Servo(pin_id=16)
-BLYNK_AUTH = "IlqqRT0wYRCg8Tf36h-FTP7XOgvipzWK"
+
+# Authorization-value for Blynk
+BLYNK_AUTH = ""
 #variable for blynktimer
 timer = blynktimer.Timer()
 
 #internet credentials
-ssid = 'IZZI-48EE'
-password = 'mimiykiki'
+ssid = ''
+password = ''
 
+# connect the network    
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
 wlan.connect(ssid,password)
-
- 
-# connect the network       
+   
 wait = 10
 while wait > 0:
     if wlan.status() < 0 or wlan.status() >= 3:
@@ -44,6 +53,8 @@ else:
 blynk = blynklib.Blynk(BLYNK_AUTH)
  
 
+# Principal function for when motion is detected
+# Timer triggers funtion eveery second to check if motion is detected
 @timer.register(interval=1, run_once=False)
 def motionSensorListener():
         if motionSensor.value() == 1:
@@ -53,7 +64,7 @@ def motionSensorListener():
             blynk.log_event("photo_notification","photo was taken")
             
 
-
+# Principal run loop for blynk functions
 while True:
     blynk.run()
     timer.run()
