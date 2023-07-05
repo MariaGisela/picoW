@@ -5,14 +5,6 @@ import blynklib
 import blynktimer
 from servo import Servo
 
-
-from machine import Pin
-import time
-import network
-import blynklib
-import blynktimer
-from servo import Servo
-
 # Setup for Pins for Motion sensor and servo
 motionSensor = Pin(14, Pin.IN, Pin.PULL_UP)
 my_servo = Servo(pin_id=16)
